@@ -1,134 +1,78 @@
-## PayVault - Gamified Financial Wellness App  
+# PayVault - Backend
 
-### **Overview**
-PayVault is a gamified financial wellness app designed to help users improve their financial habits in a fun and engaging way. It provides real-time financial health scores, AI-powered spending insights, challenges, leaderboards, and rewards to encourage better money management.
+## Overview
+The backend of PayVault is a **Spring Boot Microservices** application designed to handle all core functionalities, including authentication, transactions, and event-driven processes. It follows an **Event-Driven Architecture** with **Asynchronous Behavior** and **Circuit Breaker patterns** to ensure high availability and scalability.
 
----
+## Tech Stack
+- **Spring Boot** (Core framework)
+- **Spring Security** (Authentication & Authorization)
+- **Spring Cloud** (Microservices communication)
+- **Spring Actuator** (Monitoring & Health Checks)
+- **Hibernate (JPA)** (ORM for database operations)
+- **PostgreSQL** (Primary database)
+- **MongoDB** (For NoSQL storage)
+- **Redis Queue (Pub-Sub)** (Asynchronous messaging system)
+- **API Gateway** (Routing & Security)
+- **WebSockets** (Real-time communication)
+- **Resilience4j/Hystrix** (Circuit Breaker)
+- **Swagger/OpenAPI** (API Documentation)
+- **Docker & Kubernetes** (Deployment & Scaling)
+- **Prometheus & Grafana** (Monitoring & Metrics)
+- **ELK Stack** (Logging & Analytics)
 
-## **📌 Project Structure**
+## Installation & Setup
+### Prerequisites
+- Java 21
+- PostgreSQL & MongoDB
+- Redis
+- Docker & Kubernetes (For containerized deployment)
+- Maven
 
-The project follows a **monorepo** approach with separate branches for backend and frontend development:
+### Steps to Set Up Locally
+1. Clone the repository:
+   ```sh
+   git clone -b backend https://github.com/your-username/pay-vault.git
+   cd pay-vault
+   ```
+2. Set up environment variables in `application.properties`:
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/payvault_db
+   spring.datasource.username=your_db_user
+   spring.datasource.password=your_db_password
+   redis.host=localhost
+   redis.port=6379
+   jwt.secret=your_secret_key
+   ```
+3. Run the application:
+   ```sh
+   mvn clean install
+   mvn spring-boot:run
+   ```
+4. Access API documentation at:
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
 
-- `develop` → The main branch containing the final, fully functional application.
-- `backend` → Contains all backend-related code, including APIs, authentication, database, and business logic.
-- `frontend` → Contains the frontend code, including UI, state management, and user interactions.
+## Microservices Structure
+- **Auth Service**: Handles user authentication & JWT-based authorization
+- **Transaction Service**: Manages payments, fund transfers, and history
+- **Notification Service**: Uses Redis Queue for async messaging (e.g., email, SMS)
+- **Analytics Service**: Provides financial insights using AI/ML models
 
----
+## API Gateway & Security
+- Uses **Spring Cloud Gateway** for routing
+- Implements **OAuth2.0** and **JWT** for secure authentication
+- **Rate limiting & API throttling** to prevent abuse
 
-## **📌 Features**
-### ✅ Financial Health Score
-- AI-based scoring based on user transactions and habits.
-- Personalized suggestions for financial improvement.
+## Contribution Guidelines
+- Follow branch naming convention: `feature/your-feature-name`
+- Ensure all commits are descriptive
+- Maintain code quality with unit tests
+- Submit PRs for review before merging
 
-### ✅ Gamified Challenges
-- Users can take part in saving and budgeting challenges.
-- Earn rewards and badges for achieving financial goals.
-
-### ✅ AI-Powered Spending Coach
-- Provides personalized insights into spending patterns.
-- Suggests optimized budgets and spending habits.
-
-### ✅ Social Leaderboards
-- Compete with friends or other users in savings and budgeting challenges.
-- Share achievements on social platforms.
-
-### ✅ Daily Bite-Sized Financial Lessons
-- Interactive lessons on credit management, investing, and saving.
-- AI-adapted content based on user knowledge level.
-
-### ✅ Rewards & Discounts
-- Users earn points for financial achievements.
-- Redeemable for discounts, cashback, or partnered brand offers.
-
----
-
-## **📌 Tech Stack**
-
-### **🔹 Backend:**
-- **Spring Boot (Java)** - REST API Development
-- **PostgreSQL** - Database
-- **Prisma ORM** - Database management
-- **Redis Queue** - Event-driven architecture
-- **Resilience4j** - Circuit breaker for fault tolerance
-- **Spring Security & JWT** - Authentication & Authorization
-- **Swagger OpenAPI** - API Documentation
-
-### **🔹 Frontend:**
-- **React.js (TypeScript)** - UI development
-- **Tailwind CSS** - Styling
-- **Recoil.js** - State management
-- **Axios** - API calls
-- **React Query** - Data fetching & caching
-
-### **🔹 DevOps & Deployment:**
-- **Docker** - Containerization
-- **Cloudflare** - Security & CDN
-- **GitHub Actions** - CI/CD Pipeline
-- **Nginx** - Reverse Proxy
-
----
-
-## **📌 Installation & Setup**
-
-### **1️⃣ Clone the Repository**
-```bash
-git clone -b develop https://github.com/your-username/pay-vault.git
-cd pay-vault
-```
-
-### **2️⃣ Navigate to Backend or Frontend**
-```bash
-# For Backend
-git checkout backend
-cd backend
-
-# For Frontend
-git checkout frontend
-cd frontend
-```
-
-### **3️⃣ Follow Setup Instructions for Each Component**
-- [Backend Setup Guide](backend/README.md)
-- [Frontend Setup Guide](frontend/README.md)
+## License
+MIT License - Open Source
 
 ---
-
-## **📌 Contribution Guidelines**
-
-1. **Branching Strategy:**
-   - Work on feature branches (e.g., `feature/user-auth`), then merge into `backend` or `frontend`.
-   - Once tested, merge into `develop`.
-
-2. **Commit Messages:**
-   - Use clear and descriptive commit messages.
-   - Example: `feat: add user authentication API`
-
-3. **Code Style:**
-   - Follow Java best practices for backend.
-   - Maintain React component structure for frontend.
-
-4. **Pull Requests:**
-   - Create PRs for merging into `backend` or `frontend`.
-   - PRs should have detailed descriptions and pass all tests.
-
----
-
-## **📌 API Documentation**
-API documentation is available via **Swagger OpenAPI**.
-- URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-
----
-
-## **📌 Monitoring & Health Check**
-Spring Actuator is enabled for health monitoring.
-- URL: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
-
----
-
-## **📌 License**
-This project is licensed under the MIT License.
-
----
-
-🚀 **Happy Coding!**
+This README will be updated as development progresses! 🚀
 
