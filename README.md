@@ -88,7 +88,7 @@ cd frontend
 ```
 
 ### **3️⃣ Follow Setup Instructions for Each Component**
-- [Backend Setup Guide](backend/README.md)
+- [Backend Setup Guide](blob/backend/README.md)
 - [Frontend Setup Guide](frontend/README.md)
 
 ---
