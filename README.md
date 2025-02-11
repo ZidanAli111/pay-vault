@@ -88,8 +88,8 @@ cd frontend
 ```
 
 ### **3️⃣ Follow Setup Instructions for Each Component**
-- [Backend Setup Guide](backend/README.md)
-- [Frontend Setup Guide](frontend/README.md)
+- [Backend Setup Guide](https://github.com/ZidanAli111/pay-vault/tree/backend)
+- [Frontend Setup Guide](https://github.com/ZidanAli111/pay-vault/tree/frontend)
 
 ---
 
