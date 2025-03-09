@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiration: ${JWT_EXPIRATION}
+
+  oauth2:
+    client:
+      registration:
+        google:
+          client-id: ${GOOGLE_CLIENT_ID}
+          client-secret: ${GOOGLE_CLIENT_SECRET}
