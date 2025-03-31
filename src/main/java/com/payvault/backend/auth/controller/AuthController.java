@@ -1,35 +1,33 @@
 package com.payvault.backend.auth.controller;
 
 import com.payvault.backend.auth.service.AuthService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
-@RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
 
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
-
-        authService.registerUser(username, password, response);
-
-        return ResponseEntity.ok("User register Successfully");
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> request) {
+        String token = authService.registerUser(request.get("username"), request.get("password"));
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
-
-        authService.authenticateUser(username, password, response);
-
-        return ResponseEntity.ok("User Logged in Successfully");
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
+        String token = authService.authenticateUser(request.get("username"), request.get("password"));
+        return ResponseEntity.ok(Map.of("token", token));
     }
-
-
 }
