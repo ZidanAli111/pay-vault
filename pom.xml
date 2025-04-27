@@ -22,18 +22,6 @@
 		<resilience4j.version>2.2.0</resilience4j.version> <!-- Explicit Version -->
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- Spring Cloud BOM -->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 
@@ -57,11 +45,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
 
 		<!-- Spring Data JPA & PostgreSQL -->
 		<dependency>
@@ -73,17 +56,6 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 
-		<!-- Spring Boot Actuator (Monitoring) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<!-- Spring Cloud Config -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency>
 
 		<!-- Validation -->
 		<dependency>
@@ -98,38 +70,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Swagger -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.0.2</version>
-		</dependency>
-
-		<!-- Redis -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-
-		<!-- Resilience4j (Circuit Breaker) -->
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-spring-boot2</artifactId>
-			<version>${resilience4j.version}</version>
-		</dependency>
-
-		<!-- WebSockets -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-
-		<!--dotenv-java -->
-		<dependency>
-			<groupId>io.github.cdimascio</groupId>
-			<artifactId>dotenv-java</artifactId>
-			<version>3.0.0</version>
-		</dependency>
 
 
 		<!-- Testing -->
