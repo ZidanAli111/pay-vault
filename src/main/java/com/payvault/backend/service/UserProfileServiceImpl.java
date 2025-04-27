@@ -4,10 +4,10 @@ import com.payvault.backend.dto.UserProfileRequest;
 import com.payvault.backend.dto.UserProfileResponse;
 import com.payvault.backend.entity.UserProfile;
 import com.payvault.backend.exception.ResourceNotFoundException;
+import com.payvault.backend.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.payvault.backend.repository.UserProfileRepository;
 
 import java.util.UUID;
 

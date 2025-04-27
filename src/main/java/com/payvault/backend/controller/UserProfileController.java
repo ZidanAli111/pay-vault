@@ -2,11 +2,11 @@ package com.payvault.backend.controller;
 
 import com.payvault.backend.dto.UserProfileRequest;
 import com.payvault.backend.dto.UserProfileResponse;
+import com.payvault.backend.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.payvault.backend.service.UserProfileService;
 
 import java.util.UUID;
 
