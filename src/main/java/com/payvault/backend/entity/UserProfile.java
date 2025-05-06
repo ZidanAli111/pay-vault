@@ -25,19 +25,29 @@ public class UserProfile {
     private UUID userId;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "user_password", nullable = false)
     private String password;
+
+    @Column
+    private String phoneNumber;
 
     @Column
     private String bio;
 
     @Column
     private String profilePictureUrl;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column
     private LocalDateTime createdAt;
