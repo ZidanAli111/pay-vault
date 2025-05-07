@@ -19,6 +19,7 @@ public class UserPreference {
 
     @Id
     @Column(name = "preferenceId")
+    @GeneratedValue(generator = "UUID")
     private UUID preferenceId;
 
     @OneToOne

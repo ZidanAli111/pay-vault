@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Address {
 
     @Id
+    @GeneratedValue(generator = "UUID")
     private UUID addressId;
 
     @OneToOne

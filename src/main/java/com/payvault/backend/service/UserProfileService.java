@@ -2,6 +2,8 @@ package com.payvault.backend.service;
 
 import com.payvault.backend.dto.UserProfileRequest;
 import com.payvault.backend.dto.UserProfileResponse;
+import com.payvault.backend.entity.Address;
+import com.payvault.backend.entity.UserPreference;
 
 import java.util.UUID;
 
@@ -18,4 +20,7 @@ public interface UserProfileService {
 
     boolean existsByUsername(String username);
 
+    Address createAddress(Address address,UUID userId);
+
+    UserPreference createUserPreference(UserPreference userPreference,UUID userId);
 }

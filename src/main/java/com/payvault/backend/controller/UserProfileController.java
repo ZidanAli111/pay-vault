@@ -2,6 +2,8 @@ package com.payvault.backend.controller;
 
 import com.payvault.backend.dto.UserProfileRequest;
 import com.payvault.backend.dto.UserProfileResponse;
+import com.payvault.backend.entity.Address;
+import com.payvault.backend.entity.UserPreference;
 import com.payvault.backend.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,18 @@ public class UserProfileController {
     public ResponseEntity<UserProfileResponse> createUser(@RequestBody UserProfileRequest userRequest) {
         UserProfileResponse userResponse = userProfileService.createUser(userRequest);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @PostMapping("/address/{userId}")
+    public ResponseEntity<Address> createAddress(@PathVariable UUID userId,@RequestBody Address address) {
+        Address addressResponse = userProfileService.createAddress(address,userId);
+        return ResponseEntity.ok(addressResponse);
+    }
+
+    @PostMapping("/preferences/{userId}")
+    public ResponseEntity<UserPreference> createUserPreference(@PathVariable UUID userId,@RequestBody UserPreference userPreference) {
+        UserPreference userPreferenceResponse = userProfileService.createUserPreference(userPreference,userId);
+        return ResponseEntity.ok(userPreferenceResponse);
     }
 
     @GetMapping("/{userId}")
