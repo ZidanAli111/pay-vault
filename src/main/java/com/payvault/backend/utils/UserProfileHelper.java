@@ -2,11 +2,13 @@ package com.payvault.backend.utils;
 
 import com.payvault.backend.dto.UserProfileResponse;
 import com.payvault.backend.entity.UserProfile;
+import org.springframework.stereotype.Component;
 
 import java.util.Currency;
 import java.util.Locale;
 
 
+@Component
 public class UserProfileHelper {
 
     public UserProfileResponse mapToUserProfileResponse(UserProfile savedUser) {

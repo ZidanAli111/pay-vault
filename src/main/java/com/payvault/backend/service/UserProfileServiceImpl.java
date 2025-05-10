@@ -29,7 +29,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final AddressRepository addressRepository;
     private final PreferenceRepository preferenceRepository;
-    private UserProfileHelper userProfileHelper;
+    private final UserProfileHelper userProfileHelper;
 
     private String country;
 
@@ -63,6 +63,19 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         country = address.getCountry();
 
+        // Check if UserPreference already exists for the user
+        boolean preferenceExists = preferenceRepository.existsByUserProfile(userProfile);
+        if (!preferenceExists) {
+            // Create default UserPreference
+            UserPreference defaultPreference = UserPreference.builder()
+                    .userProfile(userProfile)
+                    .currency(userProfileHelper.mapCountryToUserPreference(country))
+                    .darkMode(false)
+                    .notificationSettings("EMAIL")
+                    .build();
+            preferenceRepository.save(defaultPreference);
+        }
+
         return addressRepository.save(address);
     }
 
@@ -72,13 +85,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = userProfileRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
 
-        String currency = userProfileHelper.mapCountryToUserPreference(country);
-
         userPreference.setUserProfile(userProfile);
-        userPreference.setCurrency(currency);
-        userPreference.setDarkMode(false);
-        userPreference.setNotificationSettings("EMAIL");
-
         return preferenceRepository.save(userPreference);
     }
 
