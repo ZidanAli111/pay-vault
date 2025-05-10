@@ -9,6 +9,7 @@ import com.payvault.backend.exception.ResourceNotFoundException;
 import com.payvault.backend.repository.AddressRepository;
 import com.payvault.backend.repository.PreferenceRepository;
 import com.payvault.backend.repository.UserProfileRepository;
+import com.payvault.backend.utils.UserProfileHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static com.payvault.backend.constants.UserProfileConstants.USER_NOT_FOUND_WITH_ID;
+
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserProfileServiceImpl implements UserProfileService {
 
+
     private final UserProfileRepository userProfileRepository;
     private final AddressRepository addressRepository;
     private final PreferenceRepository preferenceRepository;
+    private UserProfileHelper userProfileHelper;
+
+    private String country;
 
     @Override
     public UserProfileResponse createUser(UserProfileRequest userRequest) {
@@ -32,8 +39,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         String encryptedPassword = new BCryptPasswordEncoder(12).encode(userRequest.getPassword());
 
         UserProfile user = UserProfile.builder()
-                .username(userRequest.getUsername())
                 .name(userRequest.getName())
+                .username(userRequest.getUsername())
                 .email(userRequest.getEmail())
                 .password(encryptedPassword)
                 .phoneNumber(userRequest.getPhoneNumber())
@@ -43,30 +50,58 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .build();
 
         UserProfile savedUser = userProfileRepository.save(user);
-        return mapToUserProfileResponse(savedUser);
+        return userProfileHelper.mapToUserProfileResponse(savedUser);
     }
 
+    @Override
+    public Address createAddress(Address address, UUID userId) {
+
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+
+        address.setUserProfile(userProfile);
+
+        country = address.getCountry();
+
+        return addressRepository.save(address);
+    }
+
+    @Override
+    public UserPreference createUserPreference(UserPreference userPreference, UUID userId) {
+
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+
+        String currency = userProfileHelper.mapCountryToUserPreference(country);
+
+        userPreference.setUserProfile(userProfile);
+        userPreference.setCurrency(currency);
+        userPreference.setDarkMode(false);
+        userPreference.setNotificationSettings("EMAIL");
+
+        return preferenceRepository.save(userPreference);
+    }
 
     @Override
     public UserProfileResponse getUserById(UUID userId) {
 
         UserProfile userProfile = userProfileRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
-        return mapToUserProfileResponse(userProfile);
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+        return userProfileHelper.mapToUserProfileResponse(userProfile);
     }
 
     @Override
     public UserProfileResponse getUserByUsername(String username) {
         UserProfile userProfile = userProfileRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
-        return mapToUserProfileResponse(userProfile);
+        return userProfileHelper.mapToUserProfileResponse(userProfile);
     }
 
     @Override
     public UserProfileResponse getUserByEmail(String email) {
         UserProfile userProfile = userProfileRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
-        return mapToUserProfileResponse(userProfile);
+        return userProfileHelper.mapToUserProfileResponse(userProfile);
     }
 
     @Override
@@ -81,38 +116,5 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userProfileRepository.existsByUsername(username);
     }
 
-    @Override
-    public Address createAddress(Address address, UUID userId) {
 
-        UserProfile userProfile = userProfileRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
-
-        address.setUserProfile(userProfile);
-        return addressRepository.save(address); // Ensure addressRepository is injected
-    }
-
-    @Override
-    public UserPreference createUserPreference(UserPreference userPreference, UUID userId) {
-
-        UserProfile userProfile = userProfileRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
-
-        userPreference.setUserProfile(userProfile);
-        return preferenceRepository.save(userPreference);
-    }
-
-    private UserProfileResponse mapToUserProfileResponse(UserProfile savedUser) {
-
-        return UserProfileResponse.builder()
-                .userId(savedUser.getUserId())
-                .name(savedUser.getName())
-                .email(savedUser.getEmail())
-                .username(savedUser.getUsername())
-                .password(savedUser.getPassword())
-                .bio(savedUser.getBio())
-                .profilePictureUrl(savedUser.getProfilePictureUrl())
-                .role(savedUser.getRole())
-                .build();
-
-    }
 }
