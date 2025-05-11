@@ -19,6 +19,7 @@ public class UserProfileHelper {
                 .email(savedUser.getEmail())
                 .username(savedUser.getUsername())
                 .password(savedUser.getPassword())
+                .phoneNumber(savedUser.getPhoneNumber())
                 .bio(savedUser.getBio())
                 .profilePictureUrl(savedUser.getProfilePictureUrl())
                 .role(savedUser.getRole())
