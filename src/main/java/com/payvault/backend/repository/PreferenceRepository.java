@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface PreferenceRepository extends JpaRepository<UserPreference, UUID> {
 
     boolean existsByUserProfile(UserProfile userProfile);
+
+    UserPreference findByUserProfile(UserProfile userProfile);
 }
