@@ -22,5 +22,7 @@ public interface UserProfileService {
 
     Address createAddress(Address address,UUID userId);
 
-    UserPreference createUserPreference(UserPreference userPreference,UUID userId);
+    Address updateAddress(Address address,UUID userId);
+
+    UserPreference updateUserPreference(UserPreference userPreference, UUID userId);
 }

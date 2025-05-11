@@ -55,18 +55,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public Address createAddress(Address address, UUID userId) {
-
         UserProfile userProfile = userProfileRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
 
-        address.setUserProfile(userProfile);
+        if (addressRepository.findByUserProfile(userProfile) != null) {
+            throw new IllegalStateException("Address already exists for user with ID: " + userId);
+        }
 
+        address.setUserProfile(userProfile);
         country = address.getCountry();
 
-        // Check if UserPreference already exists for the user
-        boolean preferenceExists = preferenceRepository.existsByUserProfile(userProfile);
-        if (!preferenceExists) {
-            // Create default UserPreference
+        if (!preferenceRepository.existsByUserProfile(userProfile)) {
             UserPreference defaultPreference = UserPreference.builder()
                     .userProfile(userProfile)
                     .currency(userProfileHelper.mapCountryToUserPreference(country))
@@ -80,13 +79,40 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserPreference createUserPreference(UserPreference userPreference, UUID userId) {
+    public Address updateAddress(Address address, UUID userId) {
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+
+        Address existingAddress = addressRepository.findByUserProfile(userProfile);
+        if (existingAddress == null) {
+            throw new IllegalStateException("No address found for user with ID: " + userId);
+        }
+
+        existingAddress.setCity(address.getCity());
+        existingAddress.setCountry(address.getCountry());
+        existingAddress.setPincode(address.getPincode());
+        existingAddress.setState(address.getState());
+
+        return addressRepository.save(existingAddress);
+    }
+
+    @Override
+    public UserPreference updateUserPreference(UserPreference userPreference, UUID userId) {
 
         UserProfile userProfile = userProfileRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
 
-        userPreference.setUserProfile(userProfile);
-        return preferenceRepository.save(userPreference);
+        UserPreference existingPreference = preferenceRepository.findByUserProfile(userProfile);
+        if (existingPreference == null) {
+            throw new ResourceNotFoundException(USER_NOT_FOUND_WITH_ID + userId);
+        }
+
+        existingPreference.setCurrency(userPreference.getCurrency());
+        existingPreference.setDarkMode(userPreference.isDarkMode());
+        existingPreference.setNotificationSettings(userPreference.getNotificationSettings());
+        existingPreference.setUserProfile(userProfile);
+
+        return preferenceRepository.save(existingPreference);
     }
 
     @Override
