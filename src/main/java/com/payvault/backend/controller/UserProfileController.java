@@ -33,9 +33,15 @@ public class UserProfileController {
         return ResponseEntity.ok(addressResponse);
     }
 
-    @PostMapping("/preferences/{userId}")
-    public ResponseEntity<UserPreference> createUserPreference(@PathVariable UUID userId,@RequestBody UserPreference userPreference) {
-        UserPreference userPreferenceResponse = userProfileService.createUserPreference(userPreference,userId);
+    @PutMapping("/address/{userId}")
+    public ResponseEntity<Address> updateAddress(@PathVariable UUID userId,@RequestBody Address address) {
+        Address addressResponse = userProfileService.updateAddress(address,userId);
+        return ResponseEntity.ok(addressResponse);
+    }
+
+    @PutMapping("/preferences/{userId}")
+    public ResponseEntity<UserPreference> updateUserPreference(@PathVariable UUID userId,@RequestBody UserPreference userPreference) {
+        UserPreference userPreferenceResponse = userProfileService.updateUserPreference(userPreference,userId);
         return ResponseEntity.ok(userPreferenceResponse);
     }
 
@@ -56,6 +62,5 @@ public class UserProfileController {
         UserProfileResponse user = userProfileService.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }
-
 
 }
