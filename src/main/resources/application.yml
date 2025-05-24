@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://pg-payvault-pg-payvault.k.aivencloud.com:21627/defaultdb?sslmode=require
-    username: avnadmin
-    password: AVNS_P9VRhnFKq97GIU5skEo
+    url: jDB_URL
+    username: USER_NAME
+    password: USER_PASSWORD
 
   jpa:
     hibernate:
